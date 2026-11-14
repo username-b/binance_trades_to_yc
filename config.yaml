@@ -1,0 +1,21 @@
+symbols:
+  - ADAUSDT
+
+date_range:
+  start: 2026-01-01
+  end: 2026-01-02
+
+storage:
+  bucket: binance-data-downloader
+  prefix: raw
+  overwrite: false
+
+download:
+  base_root: https://data.binance.vision/data/futures/um/daily
+  retries: 3
+  timeout: [10, 60]
+  backoff: 2
+
+sharding:
+  shard_id: 0
+  shard_total: 1
