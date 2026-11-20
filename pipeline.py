@@ -33,6 +33,7 @@ class TradesPipeline:
         dates = [start_date + dt.timedelta(days=offset) for offset in range(day_count)]
         dates = [date for index, date in enumerate(dates) if index % shard_total == shard_id]
         print(f"{symbol}: shard {shard_id}/{shard_total}, {len(dates)} days")
+        failures: list[tuple[str, str]] = []
 
         for date in dates:
             date_string = date.isoformat()
@@ -44,3 +45,10 @@ class TradesPipeline:
                 self.writer.write(self.normalizer.normalize(frame), symbol, date_string)
             except Exception as error:
                 print(f"ERROR {symbol} {date_string}: {error}")
+                failures.append((date_string, str(error)))
+
+        if failures:
+            failed_dates = ", ".join(date for date, _ in failures)
+            raise RuntimeError(
+                f"{symbol}: failed to process {len(failures)} day(s): {failed_dates}"
+            )
