@@ -1,0 +1,25 @@
+symbols:
+  - BTCUSDT
+
+date_range:
+  start: 2026-11-13
+  end: 2026-11-13
+
+# date_range:
+#   start: 2019-09-08
+#   end: 2026-11-13
+
+storage:
+  bucket: binance-data-downloader
+  prefix: raw
+  overwrite: false
+
+download:
+  base_root: https://data.binance.vision/data/futures/um/daily
+  retries: 3
+  timeout: [10, 60]
+  backoff: 2
+
+sharding:
+  shard_id: 0
+  shard_total: 1
